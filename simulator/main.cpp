@@ -92,7 +92,7 @@ int connection(int routerNum, std::string dataSetName, std::vector<int> sid, std
 
     std::cout << "Connection completed" << std::endl;
 
-    shell(r, type);
+    // shell(r, type);
 
     event *e[REQUEST_NUM];
     for (int i = 0;i < REQUEST_NUM;++i) {
