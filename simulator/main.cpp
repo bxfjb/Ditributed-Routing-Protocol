@@ -92,7 +92,7 @@ int connection(int routerNum, std::string dataSetName, std::vector<int> sid, std
 
     std::cout << "Connection completed" << std::endl;
 
-    // shell(r, type);
+    shell(r, type);
 
     event *e[REQUEST_NUM];
     for (int i = 0;i < REQUEST_NUM;++i) {
@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
     connection(links.size(), dataSetName, com.first, com.second, names, links, req, routingType);
     gettimeofday(&t2, NULL);
     long long timeSub = (t2.tv_sec - t1.tv_sec) * 1000000 + (t2.tv_usec - t1.tv_usec);
-    std::cout << std::endl << "Time Cost: " << timeSub << "us" << std::endl;
+    std::cout << dataSetName << " " << routingTypeStr << std::endl << " Time Cost: " << timeSub << "us" << std::endl;
     // TODO 
     // Events: Links failure and addtional ingress node 
 }

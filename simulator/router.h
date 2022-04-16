@@ -119,6 +119,10 @@ class router {
         void pathSelection(path p, int peerId) {
             link l = links[peerId];
             path _p(p, l, ++inLabelCnt, type);
+            if (_p.getHop() > HOP_MAX) {
+                --inLabelCnt;
+                return;
+            }
             int pSID = _p.getSID();
             /* The first pSID path */
             if (!RIB.count(pSID)) {
@@ -274,9 +278,9 @@ class router {
 
         void printInfo(int type) {
             std::cout << "This is router[" << rouetrId << "]:" << name << std::endl;
-            std::cout << "Stored label: " << std::endl;
-            for (auto l:inLableMap)
-                std::cout << l.first << " ";
+            // std::cout << "Stored label: " << std::endl;
+            // for (auto l:inLableMap)
+            //     std::cout << l.first << " ";
             std::cout << std::endl;
             for (auto peer:peers) {
                 std::cout << "Connectting to router[" << peer->getID() << "]:" << peer->getName() 
@@ -291,9 +295,9 @@ class router {
             }
             std::cout << "Stroed RIB: " << std::endl;
             if (type == PARTIAL_ORDER_PATH || type == PARTIAL_ORDER_NOCOM_PATH) {
-                std::cout << "------------------------------------------------------------------------" << std::endl;
-                std::cout << "| SID | BandWidth | Delay | Capability | inLabel | outLabel | Next Hop |" << std::endl;
-                std::cout << "------------------------------------------------------------------------" << std::endl;
+                std::cout << "------------------------------------------------------------------------------" << std::endl;
+                std::cout << "| SID | BandWidth | Delay | Capability | Hop | inLabel | outLabel | Next Hop |" << std::endl;
+                std::cout << "------------------------------------------------------------------------------" << std::endl;
                 for (auto _sid:SIDList){
                     for (auto _path:RIB[_sid]) {
                         std::cout << "|" << std::setw(3) << _sid << std::setw(3) << "|";
@@ -302,6 +306,7 @@ class router {
                         std::cout << std::setw(6) <<  _path.getPathAttr().getBand() << std::setw(6) << "|";
                         std::cout << std::setw(4) << _path.getPathAttr().getDelay() << std::setw(4) << "|";
                         std::cout << std::setw(7) << _path.getPathAttr().getCom() << std::setw(6) << "|";
+                        std::cout << std::setw(3) << _path.getHop() << std::setw(3) << "|";
                         std::cout << std::setw(5) << _path.getInLabel() << std::setw(5) << "|";
                         (_path.getOUtLabel() != NONE_LABEL) ? 
                         std::cout << std::setw(6) << _path.getOUtLabel() << std::setw(5) << "|" :
@@ -310,14 +315,14 @@ class router {
                         std::cout << std::setw(6) << _path.getNextHop() << std::setw(5) << "|":
                         std::cout << std::setw(6) << "self" << std::setw(5) << "|";
                         std::cout << std::endl;
-                std::cout << "------------------------------------------------------------------------" << std::endl;
+                std::cout << "------------------------------------------------------------------------------" << std::endl;
                     }
                 }
             }
             else if (type == EIGRP_METRIC_PATH) {
-                std::cout << "---------------------------------------------------------------------------------" << std::endl;
-                std::cout << "| SID | BandWidth | Delay | Capability | inLabel | outLabel | Next Hop | Metric |" << std::endl;
-                std::cout << "---------------------------------------------------------------------------------" << std::endl;
+                std::cout << "---------------------------------------------------------------------------------------" << std::endl;
+                std::cout << "| SID | BandWidth | Delay | Capability | Hop | inLabel | outLabel | Next Hop | Metric |" << std::endl;
+                std::cout << "---------------------------------------------------------------------------------------" << std::endl;
                 for (auto _sid:SIDList){
                     for (auto _path:RIB[_sid]) {
                         std::cout << "|" << std::setw(3) << _sid << std::setw(3) << "|";
@@ -326,6 +331,7 @@ class router {
                         std::cout << std::setw(6) <<  _path.getPathAttr().getBand() << std::setw(6) << "|";
                         std::cout << std::setw(4) << _path.getPathAttr().getDelay() << std::setw(4) << "|";
                         std::cout << std::setw(7) << _path.getPathAttr().getCom() << std::setw(6) << "|";
+                        std::cout << std::setw(3) << _path.getHop() << std::setw(3) << "|";
                         std::cout << std::setw(5) << _path.getInLabel() << std::setw(5) << "|";
                         (_path.getOUtLabel() != NONE_LABEL) ? 
                         std::cout << std::setw(6) << _path.getOUtLabel() << std::setw(5) << "|" :
@@ -334,7 +340,7 @@ class router {
                         std::cout << std::setw(6) << _path.getNextHop() << std::setw(5) << "|" << std::setw(5) << (double)1.0 / _path.getPathAttr().getBand() + _path.getPathAttr().getDelay() << std::setw(4) << "|":
                         std::cout << std::setw(6) << "self" << std::setw(5) << "|" << std::setw(4) << "0" << std::setw(5) << "|";
                         std::cout << std::endl;
-                std::cout << "---------------------------------------------------------------------------------" << std::endl;
+                std::cout << "---------------------------------------------------------------------------------------" << std::endl;
                     }
                 }
             }

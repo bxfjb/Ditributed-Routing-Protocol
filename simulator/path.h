@@ -63,19 +63,20 @@ class path{
         int nextHop;
         attr pathAttr;
         int pathType;
+        int hop;
     public:
         /* Default constructor */
-        path(): SID(INVALID_SID), inLabel(NONE_LABEL), outLabel(NONE_LABEL), nextHop(NXTHOP_SELF), pathAttr(), pathType(PARTIAL_ORDER_PATH) {}
+        path(): SID(INVALID_SID), inLabel(NONE_LABEL), outLabel(NONE_LABEL), nextHop(NXTHOP_SELF), pathAttr(), pathType(PARTIAL_ORDER_PATH), hop(0) {}
         /* Initializer for ingress nodes */
         path(int s, int il, int c, int t): 
-            SID(s), inLabel(il), outLabel(NONE_LABEL), nextHop(NXTHOP_SELF), pathAttr(c), pathType(t) {}
+            SID(s), inLabel(il), outLabel(NONE_LABEL), nextHop(NXTHOP_SELF), pathAttr(c), pathType(t), hop(0) {}
         /* Initializer for intermidiate nodes */
         path(path p, link l, int il, int t):
             SID(p.getSID()), inLabel(il), outLabel(p.getInLabel()),
-                nextHop(l.getPeer()), pathAttr(p.getPathAttr(), l.getLinkAttr()), pathType(t) {}
+                nextHop(l.getPeer()), pathAttr(p.getPathAttr(), l.getLinkAttr()), pathType(t), hop(p.getHop()+1) {}
         /* Initializer for test */
         path(attr a): 
-            SID(INVALID_SID), inLabel(NONE_LABEL), outLabel(NONE_LABEL), nextHop(NXTHOP_SELF), pathAttr(a.getBand(), a.getDelay(), a.getCom()), pathType(PARTIAL_ORDER_PATH) {}
+            SID(INVALID_SID), inLabel(NONE_LABEL), outLabel(NONE_LABEL), nextHop(NXTHOP_SELF), pathAttr(a.getBand(), a.getDelay(), a.getCom()), pathType(PARTIAL_ORDER_PATH), hop(0) {}
         /* Overloaded of > */
         bool operator >(const path& p) const {
             bool ret;
@@ -101,6 +102,7 @@ class path{
         int getInLabel() const {return inLabel;}
         int getOUtLabel() const {return outLabel;}
         int getNextHop() const {return nextHop;}
+        int getHop() const {return hop;}
         void invalidation() {SID = INVALID_SID;}
         void setPathType(int t) {pathType = t;}
 };

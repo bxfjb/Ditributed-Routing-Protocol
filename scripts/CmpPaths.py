@@ -90,7 +90,7 @@ for AS in ["AS1221", "AS1239", "AS1755", "AS3257", "AS3967", "AS6461"]:
                 cmp.append("worse")
             else:
                 cmp.append("equal")
-            if "worse" in cmp or "better" in cmp:
-                print(cmp)
+            # if "worse" in cmp or "better" in cmp:
+            #     print(cmp)
             fileCmp.write(str(cmp) + "\n")
 print(cnt1, cnt2)

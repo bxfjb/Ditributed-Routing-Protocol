@@ -24,4 +24,6 @@
 
 #define REQUEST_NUM                 1000
 
+#define HOP_MAX                     16
+
 #endif
