@@ -127,4 +127,4 @@ for AS in ['AS1221', 'AS1239', 'AS1755', 'AS3257', 'AS3967', 'AS6461']:
         fileNames.write(str(name) + "\n")
     fileNames.close()
 
-    InitRequests.InitRequest(n, 0.5, 1000, SID, AS)
+    InitRequests.InitRequest(n, 0.95, 10000, SID, AS)

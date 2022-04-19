@@ -34,12 +34,7 @@ def better(info, p1, p2, cri):
 # for AS in ["AS1221", "AS1239", "AS1755", "AS3257", "AS3967", "AS6461"]:
 #     for t in ["0", "1", "2"]:
 #         print("./main " + AS + " " + t)
-info = [9.854312030222241,8.868880827200018,16.895784215003413]
-p1 = [14,67,7]
-p2 = [5,31,7]
-p3 = [14,67,7]
-cri = 6
-p = [p1,p2,p3]
-cmp1 = better(info, p1, p2, cri)
-cmp2 = better(info, p2, p1, cri)
-print(cmp1, cmp2)
+
+data = [[[[], []] for i in range(2)] for j in range(6)]
+data[0][0][1].append(0)
+print(data)

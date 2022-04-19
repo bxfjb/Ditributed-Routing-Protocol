@@ -17,24 +17,21 @@ def InitRequest(n, propK, requestNum, SIDNum, AS):
         if c == 0 or c == 1 or c == 2:
             info.append([])
         elif c == 3:
-            K = abs(numpy.random.normal(20, 0.5, 1)[0])
+            K = abs(numpy.random.normal(20, 5, 1)[0])
             info.append([K])
         elif c == 4:
-            W = abs(numpy.random.normal(15, 1, 1)[0])
+            W = abs(numpy.random.normal(15, 5, 1)[0])
             info.append([W])
         elif c == 5:
-            K = abs(numpy.random.normal(20, 0.5, 1)[0])
+            K = abs(numpy.random.normal(20, 5, 1)[0])
             _K = propK * K
             info.append([K, _K])
         elif c == 6:
-            K = abs(numpy.random.normal(20, 0.5, 1)[0])
+            K = abs(numpy.random.normal(20, 5, 1)[0])
             _K = propK * K
-            W = abs(numpy.random.normal(15, 1, 1)[0])
+            W = abs(numpy.random.normal(15, 5, 1)[0])
             info.append([K, _K, W])
 
-    # Data = []
-    # for i in range(0, requestNum):
-    #     Data.append([PID[i], SID[i], pos[i], Criteria[i], info[i]])
 
     fileRequestName = "../dataSets/%s/Requests.data" % AS
     fileRequest = open(fileRequestName, "w+")
