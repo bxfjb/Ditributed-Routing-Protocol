@@ -107,4 +107,12 @@ class path{
         void setPathType(int t) {pathType = t;}
 };
 
+bool operator == (const attr& a1, const attr& a2) {
+    return a1.getBand() == a2.getBand() && a1.getDelay() == a2.getDelay() && a1.getCom() == a2.getCom();
+}
+
+bool operator == (const path& p1, const path& p2) {
+    return p1.getPathAttr() == p2.getPathAttr();
+}
+
 #endif

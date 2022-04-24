@@ -276,6 +276,17 @@ class router {
             }
         }
 
+        std::vector<int> numDominantAttr() {
+            std::vector<int> ret;
+            int SDIcnt = RIB.size();
+            for (auto& tmp:RIB) {
+                auto pathSet(tmp.second);
+                pathSet.unique(); 
+                ret.emplace_back(pathSet.size());
+            }
+            return ret;
+        }
+
         void printInfo(int type) {
             std::cout << "This is router[" << rouetrId << "]:" << name << std::endl;
             // std::cout << "Stored label: " << std::endl;

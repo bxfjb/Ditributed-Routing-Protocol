@@ -1,40 +1,22 @@
-import functools
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Make some fake data.
+a = b = np.arange(0, 3, .02)
+c = np.exp(a)
+d = c[::-1]
+_,ax1=plt.subplots()
+ax2 = ax1.twinx()  
+# Create plots with pre-defined labels.
 
 
-def better(info, p1, p2, cri):
-    if cri == 1:
-        return p1[0] > p2[0] or (p1[0] == p2[0] and p1[1] < p2[1])
-    elif cri == 2:
-        return p1[1] < p2[1] or (p1[1] == p2[1] and p1[0] > p2[0])
-    elif cri == 3:
-        T1 = info[0] / p1[0] + p1[1]
-        T2 = info[0] / p2[0] + p2[1]
-        return T1 < T2 or (T1 == T2 and p1[0] > p2[0])
-    elif cri == 4:
-        if p1[0] >= info[0]:
-            return p2[0] < info[0] or better(info, p1, p2, 2)
-        else:
-            return better(info, p1, p2, 1)
-    elif cri == 5:
-        T1 = info[0] / p1[0] + p1[1] + info[1] / p1[2]
-        T2 = info[0] / p2[0] + p2[1] + info[1] / p2[2]
-        return T1 < T2 or (T1 == T2 and p1[0] > p2[0])
-    elif cri == 6:
-        T1 = info[0] / p1[0] + p1[1] + info[1] / p1[2]
-        T2 = info[0] / p2[0] + p2[1] + info[1] / p2[2]
-        if p1[0] >= info[2]:
-            return p2[0] < info[2] or better(info, p1, p2, 5)
-        else:
-            return p1[0] > p2[0] or (p1[0] == p2[0] and T1 < T2)
-    else:
-        M1 = 1.0 / p1[0] + p1[1]
-        M2 = 1.0 / p2[0] + p2[1]
-        return M1 < M2
+ax1.plot(a, c, 'k--',label='Model length')
+ax1.plot(a, d, 'r', label='Data length')
+# 这里先把地一个曲线标志显示了
+ax1.legend(loc='upper left', shadow=True, fontsize='large')
 
-# for AS in ["AS1221", "AS1239", "AS1755", "AS3257", "AS3967", "AS6461"]:
-#     for t in ["0", "1", "2"]:
-#         print("./main " + AS + " " + t)
+ax2.plot(a, c + d, 'g', label='Total message length')
+#接着再显示第二个
+ax2.legend(loc='upper right', shadow=True, fontsize='x-large')
 
-data = [[[[], []] for i in range(2)] for j in range(6)]
-data[0][0][1].append(0)
-print(data)
+plt.show()

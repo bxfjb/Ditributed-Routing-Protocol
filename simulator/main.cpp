@@ -23,6 +23,23 @@ void shell(router **r, int type) {
     }
 }
 
+template<typename T>
+T vectorSum(std::vector<T> vec) {
+    T ret = 0;
+    for (auto element:vec)
+        ret += element;
+    return ret;
+}
+
+std::vector<std::vector<int>> cntDominantPath(router **r, int size) {
+    std::vector<std::vector<int>> ret;
+    for (int i = 0;i < size;++i) {
+        auto tmp = r[i]->numDominantAttr();
+        ret.emplace_back(tmp);
+    }
+    return ret;
+}
+
 int connection(int routerNum, std::string dataSetName, std::vector<int> sid, std::vector<int> com, std::vector<std::string> name, std::vector<std::vector<std::pair<int,int>>> links, std::vector<std::tuple<int,int,int,int,std::vector<double>>> req, int type) {
     std::string prefix = "../output/" + dataSetName + "/" + std::to_string(type);
     std::string outputPathFileName = prefix + "/paths.tsv";
@@ -36,8 +53,10 @@ int connection(int routerNum, std::string dataSetName, std::vector<int> sid, std
     
     router *r[routerNum];
     std::queue<router*> execQueue;
+    int SIDcnt = 0;
     for (int i = 0;i < routerNum;++i) {
         if (sid[i]) {
+            SIDcnt = sid[i];
             r[i] = new router(i, name[i], sid[i], com[i], type);
             execQueue.push(r[i]);
         }
@@ -82,14 +101,18 @@ int connection(int routerNum, std::string dataSetName, std::vector<int> sid, std
         }
     }
     
-    int total = 0;
+    int total = 0, totalDistinct = 0;
+    auto distinctEntryNum = cntDominantPath(r, routerNum);
     for (int i = 0;i < routerNum;++i) {
-        int tmp = r[i]->entryCnt();
-        total += tmp;
-        writeEntryNum(outputEntryNumFileName, std::to_string(i), tmp);
+        int entrycnt = r[i]->entryCnt();
+        int entrycntDistinct = vectorSum(distinctEntryNum[i]);
+        total += entrycnt;
+        totalDistinct += entrycntDistinct;
+        // writeEntryNum(outputEntryNumFileName, std::to_string(i), entrycnt, entrycntDistinct);
     }
-    writeEntryNum(outputEntryNumFileName, "Total", total);
-
+    writeEntryNum(outputEntryNumFileName, "Total", total, totalDistinct);
+    writeEntryNum(outputEntryNumFileName, "#/Router", (double)total/routerNum, (double)totalDistinct/routerNum);
+    writeEntryNum(outputEntryNumFileName, "#/SID", (double)total/routerNum/SIDcnt, (double)totalDistinct/routerNum/SIDcnt);
     std::cout << "Connection completed" << std::endl;
 
     // shell(r, type);

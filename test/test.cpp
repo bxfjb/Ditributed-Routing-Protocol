@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <list>
+#include <unordered_map>
 #include "../simulator/path.h"
 
 using namespace std;
@@ -51,9 +54,21 @@ void func(vector<double> &v) {
 };
 
 int main() {
-    attr a1(5,31,7), a2(14,67,7);
-    path p1(a1), p2(a2);
-    vector<double> info{9.85, 8.87, 16.90};
-    cout << cmpPath(6, &p1, &p2, info) << endl;
-    cout << cmpPath(6, &p2, &p1, info) << endl;
+    attr a1(1,2,3), a2(1,2,3), a3(2,2,3), a4(2,2,3), a5(2,3,4);
+    path p1(a1), p2(a2), p3(a3), p4(a4), p5(a5);
+    unordered_map<int, list<path>> m;
+    m.emplace(1, list<path>{p1, p2, p3, p4, p5});
+    m.emplace(2, list<path>{p3, p3, p4, p1});
+    vector<int> ret;
+    for (auto& tmp:m) {
+        auto l(tmp.second);
+        l.unique(); 
+        ret.emplace_back(l.size());
+        cout << l.size() << endl;
+        // l.clear();
+    }
+    cout << ret[0] << endl;
+    cout << ret[1] << endl;
+    cout << m[1].size() << endl;
+    cout << m[2].size() << endl;
 }

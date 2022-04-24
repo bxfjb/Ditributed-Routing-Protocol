@@ -113,10 +113,11 @@ void writePath(std::string filename, path p) {
     outfstream.close();
 }
 
-void writeEntryNum(std::string filename, std::string prefix, int cnt) {
+template<typename T>
+void writeEntryNum(std::string filename, std::string prefix, T cnt1, T cnt2) {
     std::ofstream outfstream;
     outfstream.open(filename, std::ios::app);
-    outfstream << prefix << "\t" << cnt << std::endl;
+    outfstream << prefix << "\t" << cnt1 << "\t" << cnt2 << std::endl;
     outfstream.close();
 }
 
