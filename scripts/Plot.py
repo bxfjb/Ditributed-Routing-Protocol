@@ -205,14 +205,15 @@ cnt = [0, 0]
 for i in range (6):
     num1.append(len(data[i][0][0]) + len(data[i][0][1]))
     num2.append(len(data[i][1][0]) + len(data[i][1][1]))
-    band[0] += meanList(data[i][0][0])
-    delay[0] += meanList(data[i][0][1])
-    band[1] += meanList(data[i][1][0])
-    delay[1] += meanList(data[i][1][1])
+    delay[0] += meanList(data[i][0][0])
+    band[0] += meanList(data[i][0][1])
+    delay[1] += meanList(data[i][1][0])
+    band[1] += meanList(data[i][1][1])
 
 num_labels.append(proto_label[0] + "(%d)" % sum(num1))
 num_labels.append(proto_label[1] + "(%d)" % sum(num2))
 
+print(band, delay)
     
 plt.xlabel("Optimal Criteria")
 plt.ylabel("Number of Improved Requests")
@@ -229,7 +230,7 @@ x = numpy.arange(len(proto_label))
 fig, ax1 = plt.subplots()
 
 ax1.set_ylabel('Bandwidth improvement')
-ax1.set_ylim(0, 30)
+ax1.set_ylim(0, 400)
 ax1.bar(x, band, width=width, color='lightseagreen', align='edge', label=band_delay_label[0])
 ax1.legend()
 
@@ -237,7 +238,7 @@ ax1.legend()
 
 ax2 = ax1.twinx()
 ax2.set_ylabel('Delay improvement')
-ax2.set_ylim(0, 400)
+ax2.set_ylim(0, 30)
 ax2.bar(x+width, delay, width=width, color='tab:blue', align='edge', tick_label=proto_label, label=band_delay_label[1])
 ax2.legend(loc=2)
 
